@@ -1,1 +1,0 @@
-# Exarth-App-Through-MVVM-Archetecture-
