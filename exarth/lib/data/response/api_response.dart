@@ -10,10 +10,10 @@ class ApiResponse<T> {
 //constructor created
   ApiResponse(this.status, this.data, this.message);
 // if status is completed then pick a complete status from enum
-  ApiResponse.completed() : status = Status.COMPLETED;
+  ApiResponse.completed(this.data) : status = Status.COMPLETED;
   // if status is error then pick a errpr status from enum
   // if error occure then will go to exception class to handle any type of error that we defined
-  ApiResponse.error() : status = Status.ERROR;
+  ApiResponse.error(this.message) : status = Status.ERROR;
   // if status is loading then pick a loading status from enum
   ApiResponse.loading() : status = Status.LOADING;
 // this is a ovverode methed to use again again get data from above methed

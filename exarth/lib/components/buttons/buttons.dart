@@ -1,4 +1,4 @@
-import 'package:exarth/resources/colors/colors.dart';
+import 'package:exarth/components/colors/col.dart';
 import 'package:flutter/material.dart';
 
 class Roundbutton extends StatelessWidget {
@@ -21,7 +21,7 @@ class Roundbutton extends StatelessWidget {
             height: 55,
             width: 300,
             decoration: BoxDecoration(
-              color: AppColor.buttonColor,
+              color: AppColors.buttonColor,
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
@@ -31,7 +31,7 @@ class Roundbutton extends StatelessWidget {
                     )
                   : Text(
                       title,
-                      style: TextStyle(color: AppColor.whiteColor),
+                      style: TextStyle(color: AppColors.whiteColor),
                     ),
             ),
           )),

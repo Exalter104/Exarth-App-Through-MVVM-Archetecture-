@@ -1,103 +1,136 @@
-import 'package:exarth/resources/colors/colors.dart';
-import 'package:exarth/utils/utils/displaying_outcoms.dart';
+// ignore_for_file: prefer_final_fields
+
+import 'package:exarth/components/colors/col.dart';
+import 'package:exarth/components/buttons/buttons.dart';
+import 'package:exarth/components/show_messages/show_responses.dart';
+
+import 'package:exarth/view_models/auth_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class LoginScreenView extends StatefulWidget {
+  const LoginScreenView({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<LoginScreenView> createState() => _LoginScreenViewState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenViewState extends State<LoginScreenView> {
+  ValueNotifier<bool> _obsecurePassword = ValueNotifier<bool>(true);
   TextEditingController _emailController = TextEditingController();
-  TextEditingController __passwordController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   FocusNode emailFocusNode = FocusNode();
   FocusNode passwordFocusNode = FocusNode();
-  ValueNotifier<bool> obsecurePassword = ValueNotifier<bool>(true);
 
   @override
   void dispose() {
     super.dispose();
-
     _emailController.dispose();
-    __passwordController.dispose();
-
+    _passwordController.dispose();
+    _obsecurePassword.dispose();
     emailFocusNode.dispose();
     passwordFocusNode.dispose();
-    obsecurePassword.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final authviewModel = Provider.of<AuthViewModel>(context);
+    final authViewModel = Provider.of<AuthViewModel>(context);
     final height = MediaQuery.of(context).size.height * 1;
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.red,
-          title: Center(child: Text("Login Screen")),
-        ),
-        body: SafeArea(
+      appBar: AppBar(
+        backgroundColor: Colors.red,
+        title: Center(child: Text("LoginScreen")),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(17.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "Exarth",
-                style: TextStyle(fontSize: 35, color: AppColor.buttonColor),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Text('Exarth',
+                      style: TextStyle(
+                          fontSize: 35, color: AppColors.buttonColor)),
+                ],
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: TextFormField(
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    focusNode: emailFocusNode,
-                    decoration: InputDecoration(
-                      hintText: "Email",
-                      labelText: "Email",
-                      prefixIcon: Icon(Icons.email_outlined),
-                    ),
-                    onFieldSubmitted: (value) {
-                      Utils.feildFocusChange(
-                          context, emailFocusNode, passwordFocusNode);
-                    }),
+              SizedBox(
+                height: height * 0.07,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ValueListenableBuilder(
-                  valueListenable: obsecurePassword,
-                  builder:
-                      (BuildContext context, dynamic value, Widget? child) {
-                    return TextFormField(
+              TextFormField(
+                focusNode: emailFocusNode,
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: InputDecoration(
+                    hintText: "Email",
+                    prefixIcon: Icon(Icons.email_outlined),
+                    labelText: "Email"),
+                onFieldSubmitted: (value) {
+                  ShowResponses.feilFocusChange(
+                      context, emailFocusNode, passwordFocusNode);
+                },
+              ),
+              SizedBox(
+                height: height * 0.03,
+              ),
+              ValueListenableBuilder(
+                valueListenable: _obsecurePassword,
+                builder: (context, value, child) {
+                  return TextFormField(
                       focusNode: passwordFocusNode,
-                      controller: __passwordController,
-                      obscureText: obsecurePassword.value,
+                      controller: _passwordController,
+                      obscureText: _obsecurePassword.value,
                       obscuringCharacter: "*",
                       decoration: InputDecoration(
-                        hintText: "Password",
-                        labelText: "Password",
+                        hintText: "Pasword",
+                        labelText: "Pasword",
                         prefixIcon: Icon(Icons.lock_outlined),
                         suffixIcon: InkWell(
                             onTap: () {
-                              obsecurePassword.value = !obsecurePassword.value;
+                              _obsecurePassword.value =
+                                  !_obsecurePassword.value;
                             },
-                            child: Icon(obsecurePassword.value
+                            child: Icon(_obsecurePassword.value
                                 ? Icons.visibility_off_outlined
                                 : Icons.visibility_outlined)),
-                      ),
-                    );
-                  },
-                ),
+                      ));
+                },
               ),
               SizedBox(
-                height: height * .08,
+                height: height * 0.08,
               ),
-              //
+              Roundbutton(
+                  title: "Login",
+                  loading: authViewModel.loading,
+                  onPress: () {
+                    if (_emailController.text.isEmpty) {
+                      ShowResponses.flushBarErrorMessage(
+                          "Please Enter Email Feilds", context);
+                    } else if (_passwordController.text.isEmpty) {
+                      ShowResponses.flushBarErrorMessage(
+                          "Please Enter Password Feilds", context);
+                    } else if (_passwordController.text.length < 6) {
+                      ShowResponses.flushBarErrorMessage(
+                          "Please Enter 6 Digit Password", context);
+                    } else {
+                      Map data = {
+                        "email": _emailController.text.toString(),
+                        "password": _passwordController.text.toString()
+                      };
+                      authViewModel.loginApi(data, context);
+                      // ShowResponses.flushBarSuccessMessage(
+                      //     "You Data is Valid You May Go to Home Screen",
+                      //     context);
+                    }
+                  })
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
