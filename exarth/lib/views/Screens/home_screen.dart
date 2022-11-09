@@ -42,15 +42,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount:
                         value.deliverylistviewviewModel.data!.results!.length,
                     itemBuilder: (context, index) {
-                      return Card(
+                      return Center(
+                        child: Card(
+                            child: Center(
                           child: ListTile(
-                        title: Text(value
-                            .deliverylistviewviewModel.data!.results![index].id
-                            .toString()),
-                        subtitle: Text(value.deliverylistviewviewModel.data!
-                            .results![index].acceptedOn
-                            .toString()),
-                      ));
+                            title: Text(value.deliverylistviewviewModel.data!
+                                .results![index].id
+                                .toString()),
+                            subtitle: Text(value.deliverylistviewviewModel.data!
+                                .results![index].acceptedOn
+                                .toString()),
+                          ),
+                        )),
+                      );
                     });
 
               default:

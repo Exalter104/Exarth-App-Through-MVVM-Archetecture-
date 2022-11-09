@@ -18,7 +18,7 @@ class NetworkApiServices extends BaseApiUrls {
         ),
         headers: {
           'authorization':
-              'Bearer ekyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MDAwOTEzLCJpYXQiOjE2Njc5MTQ1MTMsImp0aSI6IjcxYThiZWVmYTJjODQxZTE5NTE5MTM1NDk4NTdkNjg5IiwidXNlcl9pZCI6Ijc1ZGY1NDFlLTQ4NDMtNDZiYS1iMjg0LTAxNDAzNzI1NDZmZCJ9.PZo5XHQkRSC3Z92MURkj8WNygyVqRtKgVmSWNFPMrII',
+              'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MDI4OTYzLCJpYXQiOjE2Njc5NDI1NjMsImp0aSI6IjlmZTJmYjA0MTUwNTQ3ODQ4ZTMzYTQxOGQzYTJkNTRmIiwidXNlcl9pZCI6Ijc1ZGY1NDFlLTQ4NDMtNDZiYS1iMjg0LTAxNDAzNzI1NDZmZCJ9.8HZwlmPuk3MCnob8Ecwj2EGJ0Nrz4J7LNj-lbc22wPI',
         },
       ).timeout(
         Duration(seconds: 10),
